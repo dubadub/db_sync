@@ -47,8 +47,12 @@ module DbSync
       columns =  row.values.first.collect { |v| v[0]}
       values = row.values.first.collect { |v| ActiveRecord::Base.connection.quote(v[1])}
       table_name = File.basename(filename).split(".").first
-      sql  = "DELETE FROM #{table_name};"
-      sql += "INSERT INTO #{table_name} (\"#{columns.join('\",\"')}\") values (#{values.join(',')})"
+      # delete all existring data from table
+      sql = "DELETE FROM #{table_name}"
+      ActiveRecord::Base.connection.execute(sql)
+      
+      # insert all synced data
+      sql = "INSERT INTO #{table_name} (\\\"#{columns.join('\",\"')}\\\") values (#{values.join(',')})"
       ActiveRecord::Base.connection.execute(sql)
     end
   end
