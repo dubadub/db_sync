@@ -22,7 +22,7 @@ module DbSync
 
   def self.dump_data
     DbSync.configuration.sync_tables.each do |table_name|    
-      location = FileUtils.mkdir_p "#{Rails.root}/db/data"    
+      location = FileUtils.mkdir_p "#{Rails.root}/db_dump"    
       i = "000"    
       sql  = "SELECT * FROM %s"    
       File.open("#{location.first}/#{table_name}.yml", 'w') do |file|      
@@ -37,7 +37,7 @@ module DbSync
   end
 
   def self.load_data
-    Dir["#{Rails.root}/db/data/*{yml}"].each do |data_file|    
+    Dir["#{Rails.root}/db_dump/*{yml}"].each do |data_file|    
       load_document(data_file)  
     end
   end

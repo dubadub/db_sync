@@ -4,7 +4,7 @@ Have you ever gone to test a specific or develop a feature, except it requires u
 
 Instead of going through a very time-consuming database dump and load process, you can use this gem instead. 
 
-It works by dumping certain tables you want into some yaml files in db/data.  You can then easily load them into your database.  
+It works by dumping certain tables you want into some yaml files in db_dump.  You can then easily load them into your database.  
 
 This works a an alternative to ludicast/yaml_db for some use cases.
 
@@ -23,7 +23,7 @@ And in config/initializers/db_sync.rb
 
 ## Usage 
 
-Run this to dump the tables you specified in the initializer to db/data
+Run this to dump the tables you specified in the initializer to db_dump
    
     bundle exec rake db_sync:dump_data 
     
