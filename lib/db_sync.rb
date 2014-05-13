@@ -49,7 +49,7 @@ module DbSync
     
     YAML.load_documents(File.new(Rails.root.join(filename), "r").read).first.values.each do |row| 
       columns =  row.keys
-      values = row.values.collect { |v| ActiveRecord::Base.connection.quote(v[1])}
+      values = row.values.collect { |v| ActiveRecord::Base.connection.quote(v)}
       sql = "INSERT INTO #{table_name} (\"#{columns.join('","')}\") values (#{values.join(',')})"
       ActiveRecord::Base.connection.execute(sql)
     end
