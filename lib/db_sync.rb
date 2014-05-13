@@ -52,7 +52,7 @@ module DbSync
       ActiveRecord::Base.connection.execute(sql)
       
       # insert all synced data
-      sql = "INSERT INTO #{table_name} (\\\"#{columns.join('\",\"')}\\\") values (#{values.join(',')})"
+      sql = "INSERT INTO #{table_name} (\"#{columns.join('","')}\") values (#{values.join(',')})"
       ActiveRecord::Base.connection.execute(sql)
     end
   end
