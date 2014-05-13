@@ -42,17 +42,18 @@ module DbSync
     end
   end
 
-  def self.load_document(filename)
+  def self.load_document(filename)    
     YAML.load_documents(File.new(Rails.root.join(filename), "r").read).each do |row| 
       columns =  row.values.first.collect { |v| v[0]}
       values = row.values.first.collect { |v| ActiveRecord::Base.connection.quote(v[1])}
       table_name = File.basename(filename).split(".").first
-      # delete all existring data from table
-      sql = "DELETE FROM #{table_name}"
-      ActiveRecord::Base.connection.execute(sql)
-      
-      # insert all synced data
-      sql = "INSERT INTO #{table_name} (\"#{columns.join('","')}\") values (#{values.join(',')})"
+      sql = "INSERT INTO #{table_name}
+              (\"#{columns.join('","')}\")
+             SELECT values #{values.join(',')}
+             WHERE
+                 NOT EXISTS (
+                     SELECT id FROM #{table_name} WHERE id = #{values.first}
+                 );"
       ActiveRecord::Base.connection.execute(sql)
     end
   end
