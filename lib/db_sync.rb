@@ -48,7 +48,7 @@ module DbSync
       values = row.values.first.collect { |v| ActiveRecord::Base.connection.quote(v[1])}
       table_name = File.basename(filename).split(".").first
       sql  = "DELETE FROM #{table_name};"
-      sql += "INSERT INTO #{table_name} (#{columns.join(',')}) values (#{values.join(',')})"
+      sql += "INSERT INTO #{table_name} (\"#{columns.join('\",\"')}\") values (#{values.join(',')})"
       ActiveRecord::Base.connection.execute(sql)
     end
   end
