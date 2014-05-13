@@ -47,9 +47,9 @@ module DbSync
     sql = "DELETE FROM #{table_name}"
     ActiveRecord::Base.connection.execute(sql)
     
-    YAML.load_documents(File.new(Rails.root.join(filename), "r").read).each do |row| 
-      columns =  row.values.first.collect { |v| v[0]}
-      values = row.values.first.collect { |v| ActiveRecord::Base.connection.quote(v[1])}
+    YAML.load_documents(File.new(Rails.root.join(filename), "r").read).first.values.each do |row| 
+      columns =  row.keys
+      values = row.values.collect { |v| ActiveRecord::Base.connection.quote(v[1])}
       sql = "INSERT INTO #{table_name} (\"#{columns.join('","')}\") values (#{values.join(',')})"
       ActiveRecord::Base.connection.execute(sql)
     end
