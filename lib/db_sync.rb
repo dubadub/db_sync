@@ -1,6 +1,6 @@
 require "db_sync/version"
 require 'db_sync/railtie' if defined?(Rails)
-YAML::ENGINE.yamler = "psych"
+#YAML::ENGINE.yamler = "psych"
 module DbSync
 
   class Configuration
